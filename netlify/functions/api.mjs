@@ -94,8 +94,9 @@ const ACTIONS = {
     s.contributions.push({ id: rid('c'), text, themes, author: ctx.client });
   },
   setThemes(s, b, ctx) {
+    // Une fois la phrase envoyée, seul l'animateur peut modifier son classement.
+    if (!ctx.admin) fail('Seul l’animateur peut modifier les thèmes d’une phrase envoyée.', 403);
     const c = s.contributions.find((x) => x.id === b.id) || fail('Contribution introuvable.', 404);
-    if (!ctx.admin && !(c.author === ctx.client && s.phase === 'collecte')) fail('Action non autorisée.', 403);
     c.themes = validThemes(s, b.themes);
   },
   deleteContribution(s, b, ctx) {
@@ -108,7 +109,7 @@ const ACTIONS = {
     const t = addTheme(s, b.name);
     if (b.contributionId) {
       const c = s.contributions.find((x) => x.id === b.contributionId);
-      if (c && (ctx.admin || c.author === ctx.client) && !c.themes.includes(t.id)) c.themes.push(t.id);
+      if (c && ctx.admin && !c.themes.includes(t.id)) c.themes.push(t.id);
     }
   },
   addNeed(s, b, ctx) {
