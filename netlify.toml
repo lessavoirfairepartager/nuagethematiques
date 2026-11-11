@@ -1,0 +1,13 @@
+[build]
+  publish = "public"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Autorise l'affichage en iframe (Magistère) et évite l'indexation
+    X-Robots-Tag = "noindex"
+    Referrer-Policy = "no-referrer"
