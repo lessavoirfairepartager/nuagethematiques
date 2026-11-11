@@ -267,7 +267,7 @@ function render(){
     $('fChips').innerHTML=chipsHtml([...draft.themes],'data-draft="1"')+draft.newThemes.map((n,i)=>`<label class="chip active new"><input type="checkbox" checked data-newtheme="${i}">${esc(n)}</label>`).join('');
     const mine=state.contributions.filter(c=>c.mine);
     $('mineCount').textContent=plural(mine.length,'phrase');
-    $('mine').innerHTML=mine.length?mine.map(c=>`<div class="item"><div class="itemrow"><p>${esc(c.text)}</p><button class="small danger" data-delc="${esc(c.id)}">Retirer</button></div><div class="chips" style="margin-top:9px">${chipsHtml(c.themes,`data-c="${esc(c.id)}"`)}</div></div>`).join(''):'<p class="muted">Tes phrases apparaîtront ici. Tu pourras modifier leurs thèmes ou les retirer tant que la collecte est ouverte.</p>';
+    $('mine').innerHTML=mine.length?mine.map(c=>`<div class="item"><div class="itemrow"><p>${esc(c.text)}</p><button class="small danger" data-delc="${esc(c.id)}">Retirer</button></div><div class="chips" style="margin-top:9px">${c.themes.length?c.themes.map(id=>`<span class="chip active" style="cursor:default">${esc(themeName(id))}</span>`).join(''):'<span class="muted">Sans thème pour l’instant</span>'}</div></div>`).join(''):'<p class="muted">Tes phrases apparaîtront ici. Une fois envoyée, une phrase ne peut plus être reclassée (tu peux seulement la retirer tant que la collecte est ouverte).</p>';
   }
 
   // nuage
